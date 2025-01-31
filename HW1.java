@@ -86,12 +86,15 @@ public class HW1 {
          * found in the linked-list that is less than thr parameter value passed.
          */
         public void removeElementsLT ( int ltValue ) {
-
+            //while loop that runs as long as the head does not equal null and the head element is less than the input
+            //it sets the head to the next node if the condition is true removing the head of the list. 
             while (head != null && head.data < ltValue) {
                 head = head.next;
             }
 
-            Node cursor = this.head;
+            Node cursor = this.head; //cursor node created to keep trakc of the iteration of the list
+            //while loop that goes through the list and searches fdor the nodes that are less than the input. 
+            //if the node is found it is deleted by linking the previous node to the node after the node to be deleted.
             while(cursor != null && cursor.next != null) {
                 cursor = cursor.next;
                 if(cursor.next != null && cursor.next.data < ltValue) {
@@ -115,8 +118,11 @@ public class HW1 {
 
         public void removeElement ( int value ) {
 
-            Node cursor = this.head;
+            Node cursor = this.head;// node that keeps track of the iteration in the loop
+            // while loop that iterates trhough the linkedlist 
             while(cursor != null) {
+                //if statement that checks if the next node in the list is not null and if the data is equal to the input value
+                //if the condition is true then it removes the element from the list. else it moves on to the next element 
                 if(cursor.next != null && cursor.next.data == value) {
                     cursor.next = cursor.next.next;
                 } else {
@@ -184,8 +190,23 @@ public class HW1 {
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
 
+            //for loop that runs as long as the length of the input string provided. 
+            //inside the loop each character from the is pushed on to the stack prvided.           
+            for (int i = 0; i < input.length(); i++) {
+                stack.push(input.charAt(i));
+            }
+            //another for loop that runs as long as the length of the list 
+            //it then pops each character of the string in a LIFO motion resulting in the string being read backwards
+            //if statement is used with the ciondition comapring the first letters with the last letters of the string working towards the middle of the string
+            //if each letter is equal to eachother the function will return true. if not then it will rteturn false. 
+            for ( int i = 0; i < input.length(); i++) {
+                if (stack.pop() != input.charAt(i)) {
+                    return false;
+                }
+            }
+            
             // Your CODE GOES HERE
-            return false;
+
         }
 
 
@@ -206,8 +227,39 @@ public class HW1 {
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
 
+            int maxIndex = 0; //keeps track of the max index for the integer k
+            int index = stack.size() -1; // keeps track of the current index 
+            boolean found = false; //boolean created to keep trakc if the integer is already found
+
+            //new stack created to keep the past stack the same and copy the stack back into the origianl stack
+            Stack<Integer> newStack = new Stack<>();
+
+            //while loop that runs as long as the original stack is not empty. 
+            while(!stack.isEmpty()) {
+                int num = stack.pop(); //keeps track of the integer that is poped off from the original stack.
+                //if statement checks if the integer poped off is the same as the integer k and also if the 
+                //found boolean is still false indicating that the integer has not already been found previously
+                //if the condition is true it sets the max index to the current index and sets found to true 
+                //so that if the sam enumber appears again it is not processed and the index is not updated
+                if(num == k && !found) {
+                    maxIndex = index; 
+                    found = true;
+                }
+
+                newStack.push(num); //pushes the number into the new stack just to hold the integer while the other numbers are processed
+                index--; // index is decreased by 1 
+            }
+            
+            //while lloop is used to push the integers back onto the orginal stack that was being used and provided in the input
+            while(!newStack.isEmpty()) {
+                stack.push(newStack.pop());
+                
+            }
+
+            return maxIndex;
+
+
             // YOUR CODE GOES HERE
-            return -1;
         }
 
     }  // End class Stacks
@@ -243,7 +295,7 @@ public class HW1 {
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
+        return 3;
     }
 
 
@@ -264,7 +316,7 @@ public class HW1 {
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
+        return 2;
     }
 
 }
